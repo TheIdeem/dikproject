@@ -84,9 +84,7 @@ export default function VirtualGamesPage() {
           <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
         </Link>
         
-        <div className="text-white font-medium bg-black rounded px-2 py-1">
-          0.00 USD
-        </div>
+        <div className="w-[80px]"></div>
       </header>
 
       {/* Back Button and Search */}
@@ -156,11 +154,6 @@ export default function VirtualGamesPage() {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Timer at bottom (overlay) */}
-      <div className="fixed bottom-20 right-4 bg-[#1e2b3f] text-white px-3 py-1 rounded-md border border-gray-600 text-sm">
-        00:47:57
       </div>
 
       {/* Bottom Navigation */}

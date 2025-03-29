@@ -49,9 +49,7 @@ export default function PopularMatchesPage() {
           <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
         </Link>
         
-        <div className="text-white font-medium bg-black rounded px-2 py-1">
-          0.00 USD
-        </div>
+        <div className="w-[24px]"></div>
       </header>
 
       <div className="flex flex-col flex-grow">
@@ -159,11 +157,6 @@ export default function PopularMatchesPage() {
             <div className="text-gray-400 text-center">
               <p>No popular matches available at the moment</p>
             </div>
-          </div>
-          
-          {/* Timer at bottom (overlay) */}
-          <div className="timer-overlay">
-            03:42:34
           </div>
         </div>
       </div>

@@ -132,6 +132,7 @@ body {
   min-height: 250px;
   position: relative;
   padding: 0;
+  overflow: hidden;
 }
 
 .banner-slider .banner .absolute {
@@ -140,6 +141,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+  background-color: transparent;
+}
+
+.banner-slider .banner .absolute img {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .banner-slider .text-2xl {
@@ -231,6 +243,7 @@ body {
   transition: background-color 0.3s ease;
   border: 1px solid #243044;
   position: relative;
+  overflow: hidden;
 }
 
 .grid-item:hover {
@@ -251,8 +264,47 @@ body {
 .icon-container svg {
   width: 120px;
   height: 120px;
-  transform: translate(-20px, -20px);
+  transform: translate(-20px, -20px) rotate(20deg);
   filter: drop-shadow(0 0 5px rgba(0, 255, 0, 0.5));
+  opacity: 0.8;
+}
+
+/* Updated custom icon approach using common characters */
+.custom-icon-cell {
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+.grid-item .custom-icon {
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  font-size: 150px;
+  color: #0f0;
+  transform: rotate(15deg);
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.5;
+  z-index: 0;
+  font-family: Arial, sans-serif;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+.sports-icon:before {
+  content: "⚽";
+}
+
+.live-icon:before {
+  content: "🔴";
+}
+
+.casino-icon:before {
+  content: "🎰";
+}
+
+.popular-icon:before {
+  content: "⭐";
 }
 
 .footer {
@@ -495,4 +547,93 @@ body {
   border: 1px solid #3a4a62;
   font-size: 14px;
   z-index: 10;
+}
+
+/* Match listing styles for sports page */
+.match-container {
+  margin-bottom: 8px;
+}
+
+.match-container:last-child {
+  margin-bottom: 0;
+}
+
+.match-container .bg-[#263244] {
+  background-color: #263244;
+}
+
+.match-container .text-[#00ff00] {
+  color: #00ff00;
+}
+
+.match-container .text-[#b9babc] {
+  color: #b9babc;
+}
+
+.match-container .bg-[#9aa7b8] {
+  background-color: #9aa7b8;
+}
+
+.match-container .text-[#3b4c66] {
+  color: #3b4c66;
+}
+
+.match-container .border-[#1a2634] {
+  border-color: #1a2634;
+}
+
+/* Tab navigation styles */
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+.overflow-x-auto {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Button styles for odds */
+.flex-1.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+/* Bet slip styles */
+.bet-slip-container {
+  background-color: #1e2b3f;
+  border-top: 1px solid #2a3847;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.bet-option {
+  transition: background-color 0.2s ease;
+}
+
+.bet-option:active {
+  background-color: #00A1D6;
+}
+
+.bet-amount-button {
+  transition: all 0.2s ease;
+}
+
+.bet-amount-button:active {
+  transform: scale(0.95);
+}
+
+.bet-amount-button.selected {
+  background-color: #00B3E3;
+  color: white;
+}
+
+.place-bet-button {
+  transition: background-color 0.3s ease;
+}
+
+.place-bet-button:active {
+  background-color: #004400;
 }

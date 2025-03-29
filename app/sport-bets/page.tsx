@@ -105,6 +105,7 @@ const sportsData = [
 
 export default function SportBetsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isLoggedIn] = useState(false);
 
   const openSidebar = () => {
     setSidebarOpen(true);
@@ -130,9 +131,14 @@ export default function SportBetsPage() {
           <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
         </div>
         
-        <div className="text-white font-medium bg-black rounded px-2 py-1">
-          0.00 USD
-        </div>
+        {isLoggedIn && (
+          <div className="text-white font-medium bg-black rounded px-2 py-1">
+            0.00 USD
+          </div>
+        )}
+        {!isLoggedIn && (
+          <div className="w-[80px]"></div>
+        )}
       </header>
 
       {/* Sports Title */}

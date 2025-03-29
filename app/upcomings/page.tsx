@@ -48,9 +48,7 @@ export default function UpcomingsPage() {
           <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
         </Link>
         
-        <div className="text-white font-medium bg-black rounded px-2 py-1">
-          0.00 USD
-        </div>
+        <div className="w-[24px]"></div>
       </header>
 
       {/* Back Button and Title Bar */}
@@ -128,11 +126,6 @@ export default function UpcomingsPage() {
         <div className="text-[#607D8B] text-center p-4">
           <p>Select a sport to view upcoming matches</p>
         </div>
-      </div>
-
-      {/* Timer at bottom (overlay) */}
-      <div className="fixed bottom-20 right-4 bg-[#1e2b3f] text-white px-3 py-1 rounded-md border border-gray-600 text-sm">
-        00:47:57
       </div>
 
       {/* Bottom Navigation */}

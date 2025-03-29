@@ -240,7 +240,7 @@ export default function MatchesPage() {
         ) : (
           <div className="matches-list">
             {matches.map((match) => (
-              <div key={match.id} className="match-card bg-[#152133] rounded-lg m-4 p-4">
+              <Link href={`/match/${match.id}`} key={match.id} className="block match-card bg-[#152133] rounded-lg m-4 p-4 hover:bg-[#1a2940] transition-colors">
                 <div className="match-header flex justify-between text-gray-400 text-sm mb-2">
                   <span>{match.date} | {match.time}</span>
                   <span>ID: {match.id}</span>
@@ -252,22 +252,34 @@ export default function MatchesPage() {
                 </div>
                 
                 <div className="match-odds flex justify-between">
-                  <button className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center">
+                  <button 
+                    className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     1<br/>{match.odds.home}
                   </button>
-                  <button className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center">
+                  <button 
+                    className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     X<br/>{match.odds.draw}
                   </button>
-                  <button className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center">
+                  <button 
+                    className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     2<br/>{match.odds.away}
                   </button>
-                  <button className="more-options-button bg-[#1e2b3f] text-white px-3 py-2 rounded mx-1 flex items-center justify-center">
+                  <button 
+                    className="more-options-button bg-[#1e2b3f] text-white px-3 py-2 rounded mx-1 flex items-center justify-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 5V5.01M12 12V12.01M12 19V19.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </button>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

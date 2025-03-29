@@ -92,27 +92,52 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen relative">
-      {/* Header */}
-      <header className="header z-10">
-        <button className="menu-button" onClick={openSidebar} aria-label="Open menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 6H21" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M3 12H21" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M3 18H21" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
+      {/* Header with Banner Integrated */}
+      <div className="bg-[#1e2b3f] relative">
+        {/* Header */}
+        <header className="header z-10">
+          <button className="menu-button" onClick={openSidebar} aria-label="Open menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 6H21" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M3 12H21" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M3 18H21" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          
+          <div className="logo">
+            <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
+          </div>
+          
+          <button className="user-button" onClick={toggleLogin}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2"/>
+              <path d="M4 20C4 17.7909 6.79086 16 10 16H14C17.2091 16 20 17.7909 20 20" stroke="white" strokeWidth="2"/>
+            </svg>
+          </button>
+        </header>
         
-        <div className="logo">
-          <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
+        {/* Register Bar */}
+        <div className="register-bar">
+          <div>FREE REGISTER NOW</div>
+          <Link href="/register">
+            <button className="register-button">Register</button>
+          </Link>
         </div>
-        
-        <button className="user-button" onClick={toggleLogin}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2"/>
-            <path d="M4 20C4 17.7909 6.79086 16 10 16H14C17.2091 16 20 17.7909 20 20" stroke="white" strokeWidth="2"/>
-          </svg>
-        </button>
-      </header>
+      
+        {/* Banner image with kurdish text and contact info */}
+        <div className="flex justify-center p-4 pb-8 overflow-hidden bg-[#1e2b3f]">
+          <div className="relative w-full max-w-md rounded-lg overflow-hidden" style={{ height: "200px" }}>
+            {/* Static banner image */}
+            <Image 
+              src="/images/banners/img_banner_1.jpeg" 
+              alt="Support Banner" 
+              fill
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          </div>
+        </div>
+      </div>
       
       {/* Login Panel */}
       {loginVisible && (
@@ -155,61 +180,37 @@ export default function Home() {
         </div>
       )}
       
-      {/* Register Bar */}
-      <div className="register-bar">
-        <div>FREE REGISTER NOW</div>
-        <Link href="/register">
-          <button className="register-button">Register</button>
-        </Link>
-      </div>
-      
-      {/* Banner Slider */}
-      <div className="banner-slider relative overflow-hidden" style={{ background: bannerData[currentBanner].bgColor }}>
-        <div 
-          className="transition-all duration-500 ease-in-out flex h-full"
-          style={{ transform: `translateX(-${currentBanner * 100}%)` }}
-        >
-          {bannerData.map((banner) => (
-            <div key={banner.id} className="w-full flex-shrink-0 banner relative">
-              <div className="absolute inset-0 z-0 bg-black flex items-center justify-center">
-                {/* Background image */}
-                <Image
-                  src={banner.image}
-                  alt={`Banner ${banner.id}`}
-                  width={800}
-                  height={300}
-                  style={{ objectFit: 'contain', maxHeight: '100%', maxWidth: '100%' }}
-                  priority
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        {/* Banner navigation dots */}
-        <div className="banner-dots absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-          {bannerData.map((_, index) => (
-            <button 
-              key={index}
-              onClick={() => goToBanner(index)}
-              className={`w-3 h-3 rounded-full ${index === currentBanner ? 'bg-white' : 'bg-gray-400'}`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-      
       {/* Tabs */}
-      <div className="tabs">
+      <div className="tabs" style={{ backgroundColor: '#000', borderTop: '3px solid #ffde00' }}>
         <div 
           className={`tab ${activeTab === "sports" ? "active" : ""}`}
           onClick={() => setActiveTab("sports")}
+          style={{ 
+            flex: 1,
+            textAlign: 'center',
+            padding: '15px',
+            color: activeTab === "sports" ? '#ffde00' : 'white',
+            borderBottom: activeTab === "sports" ? '2px solid #ffde00' : 'none',
+            fontWeight: 'bold',
+            letterSpacing: '1px',
+            fontSize: '1rem'
+          }}
         >
           SPORTS
         </div>
         <div 
           className={`tab ${activeTab === "casino" ? "active" : ""}`}
           onClick={() => setActiveTab("casino")}
+          style={{ 
+            flex: 1,
+            textAlign: 'center',
+            padding: '15px',
+            color: activeTab === "casino" ? '#ffde00' : 'white',
+            borderBottom: activeTab === "casino" ? '2px solid #ffde00' : 'none',
+            fontWeight: 'bold',
+            letterSpacing: '1px',
+            fontSize: '1rem'
+          }}
         >
           CASINO
         </div>
@@ -217,34 +218,39 @@ export default function Home() {
       
       {/* Grid Sections */}
       {activeTab === "sports" && (
-        <div className="grid-container grid grid-cols-2 gap-0 p-0">
+        <div className="grid-container grid grid-cols-2 gap-0 p-0" style={{ backgroundColor: '#1a2538' }}>
           {/* Live Matches */}
-          <Link href="/live-bets" className="grid-item">
-            <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <circle cx="42" cy="50" r="40" fill="#00ff00" />
-                <circle cx="42" cy="50" r="30" fill="#1a2538" />
-                <circle cx="42" cy="50" r="20" fill="#00ff00" />
-                <circle cx="42" cy="50" r="10" fill="#1a2538" />
-              </svg>
-            </div>
-            <div className="mt-4 text-center text-lg font-semibold">LIVE MATCHES</div>
+          <Link href="/live-bets" className="grid-item custom-icon-cell" style={{ borderBottom: '1px solid #2d3b4f', borderRight: '1px solid #2d3b4f' }}>
+            <div className="custom-icon live-icon"></div>
+            <div className="mt-4 text-center text-lg font-semibold z-10 relative">LIVE MATCHES</div>
           </Link>
           
           {/* Sports */}
-          <Link href="/sport-bets" className="grid-item">
-            <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <circle cx="42" cy="50" r="40" fill="#00ff00" />
-                <path d="M18,38 L40,21 L66,38 L55,70 L25,70 Z" fill="#1a2538" />
-                <path d="M25,30 L48,50 L40,75 M55,30 L60,55 M33,25 L65,33" stroke="#1a2538" strokeWidth="2" />
-              </svg>
+          <Link href="/sport-bets" className="grid-item" style={{
+            position: 'relative',
+            overflow: 'hidden',
+            borderBottom: '1px solid #2d3b4f'
+          }}>
+            {/* Custom icon for Sports matching the ls2:before selector */}
+            <div style={{
+              position: 'absolute',
+              top: '-10px',
+              left: '-50px',
+              fontSize: '170px',
+              color: '#0f0',
+              transform: 'rotate(20deg)',
+              margin: 0,
+              fontWeight: 400,
+              zIndex: 0,
+              opacity: 0.7
+            }}>
+              ⚽
             </div>
-            <div className="mt-4 text-center text-lg font-semibold">SPORTS</div>
+            <div className="mt-4 text-center text-lg font-semibold text-white" style={{ position: 'relative', zIndex: 1 }}>SPORTS</div>
           </Link>
           
           {/* Soon Later */}
-          <Link href="/upcomings" className="grid-item">
+          <Link href="/upcomings" className="grid-item" style={{ borderRight: '1px solid #2d3b4f' }}>
             <div className="icon-container">
               <svg width="120" height="120" viewBox="0 0 100 100">
                 <rect x="10" y="15" width="60" height="70" rx="5" fill="#00ff00" />
@@ -254,78 +260,67 @@ export default function Home() {
                 <line x1="25" y1="60" x2="55" y2="60" stroke="#00ff00" strokeWidth="4" strokeLinecap="round" />
               </svg>
             </div>
-            <div className="mt-4 text-center text-lg font-semibold">SOON LATER</div>
+            <div className="mt-4 text-center text-lg font-semibold text-white">SOON LATER</div>
           </Link>
           
           {/* Popular Matches */}
-          <Link href="/popular-matches" className="grid-item">
-            <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <path d="M15,70 L30,20 L50,80 L70,30 L85,50" stroke="#00ff00" strokeWidth="12" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <div className="mt-4 text-center text-lg font-semibold">POPULAR MATCHES</div>
+          <Link href="/popular-matches" className="grid-item custom-icon-cell">
+            <div className="custom-icon popular-icon"></div>
+            <div className="mt-4 text-center text-lg font-semibold z-10 relative text-white">POPULAR MATCHES</div>
           </Link>
         </div>
       )}
       
       {activeTab === "casino" && (
-        <div className="grid-container grid grid-cols-2 gap-0 p-0">
+        <div className="grid-container grid grid-cols-2 gap-0 p-0" style={{ backgroundColor: '#1a2538' }}>
           {/* Live Casino */}
-          <Link href="/livecasino" className="grid-item">
-            <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <circle cx="42" cy="50" r="40" fill="#00ff00" />
-                <circle cx="42" cy="50" r="30" fill="#1a2538" />
-                <circle cx="42" cy="50" r="20" fill="#00ff00" />
-                <circle cx="42" cy="50" r="10" fill="#1a2538" />
+          <Link href="/livecasino" className="grid-item relative" style={{ borderBottom: '1px solid #2d3b4f', borderRight: '1px solid #2d3b4f' }}>
+            <div className="absolute left-0 top-0 transform -translate-y-1/4 -translate-x-1/4">
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 5 C20 5 5 20 5 50" stroke="#00ff00" strokeWidth="10" fill="none" />
+                <path d="M50 5 C80 5 95 20 95 50" stroke="#00ff00" strokeWidth="10" fill="none" />
+                <circle cx="50" cy="50" r="20" stroke="#00ff00" strokeWidth="10" fill="none" />
               </svg>
             </div>
-            <div className="mt-4 text-center text-lg font-semibold">LIVE CASINO</div>
+            <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">LIVE CASINO</div>
           </Link>
           
           {/* Slot Games */}
-          <Link href="/casino" className="grid-item">
-            <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <rect x="10" y="15" width="60" height="70" rx="5" fill="#00ff00" />
-                <rect x="20" y="25" width="40" height="50" rx="3" fill="#1a2538" />
-                <circle cx="40" cy="40" r="10" fill="#00ff00" />
-                <circle cx="40" cy="60" r="10" fill="#00ff00" />
+          <Link href="/casino" className="grid-item relative" style={{ borderBottom: '1px solid #2d3b4f' }}>
+            <div className="absolute right-0 top-0 transform -translate-y-1/4 translate-x-1/4">
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="10" width="60" height="80" rx="8" stroke="#00ff00" strokeWidth="10" fill="none" />
+                <path d="M20 40 L80 40" stroke="#00ff00" strokeWidth="5" />
+                <circle cx="40" cy="65" r="10" fill="#00ff00" />
+                <circle cx="60" cy="65" r="10" fill="#00ff00" />
               </svg>
             </div>
-            <div className="mt-4 text-center text-lg font-semibold">SLOT GAMES</div>
+            <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">SLOT GAMES</div>
           </Link>
           
           {/* Live Bingo */}
-          <div className="grid-item">
-            <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <circle cx="42" cy="50" r="40" fill="#00ff00" />
-                <path d="M22,30 L62,70 M22,70 L62,30" stroke="#1a2538" strokeWidth="10" strokeLinecap="round" />
+          <Link href="/bingo" className="grid-item relative" style={{ borderRight: '1px solid #2d3b4f' }}>
+            <div className="absolute left-0 bottom-0 transform translate-y-1/4 -translate-x-1/4">
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" stroke="#00ff00" strokeWidth="10" fill="none" />
+                <path d="M20 20 L80 80" stroke="#00ff00" strokeWidth="10" />
+                <path d="M80 20 L20 80" stroke="#00ff00" strokeWidth="10" />
               </svg>
             </div>
-            <div className="mt-4 text-center text-lg font-semibold">LIVE BINGO</div>
-          </div>
+            <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">LIVE BINGO</div>
+          </Link>
           
           {/* Virtual Games */}
-          <div className="grid-item">
-            <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <path d="M15,70 L30,20 L50,80 L70,30 L85,50" stroke="#00ff00" strokeWidth="12" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+          <Link href="/virtualgames" className="grid-item relative">
+            <div className="absolute right-0 bottom-0 transform translate-y-1/4 translate-x-1/4">
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 50 C20 10, 40 10, 50 50 C60 90, 80 90, 90 50" stroke="#00ff00" strokeWidth="10" fill="none" />
               </svg>
             </div>
-            <div className="mt-4 text-center text-lg font-semibold">VIRTUAL GAMES</div>
-          </div>
+            <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">VIRTUAL GAMES</div>
+          </Link>
         </div>
       )}
-      
-      {/* WhatsApp Link */}
-      <div className="flex justify-center my-8">
-        <a href="#" className="whatsapp-link">
-          <Image src="/whatsapp.svg" alt="WhatsApp" width={40} height={40} />
-        </a>
-      </div>
       
       {/* Footer */}
       <footer className="footer mt-auto z-10">
@@ -333,7 +328,7 @@ export default function Home() {
           <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} />
         </div>
         <div className="text-sm text-gray-400">
-          Copyright © 2023 Kurdbetdax. All Rights Reserved.
+          Copyright © 2025 Kurdbetdax. All Rights Reserved.
         </div>
       </footer>
       
@@ -370,6 +365,23 @@ export default function Home() {
         </Link>
       </nav>
 
+      {/* Timer in bottom right corner */}
+      <div className="fixed bottom-20 right-4 bg-[#1e2b3f] text-white px-3 py-1 rounded-md border border-gray-700 text-sm z-20 shadow-lg">
+        02:00:29
+      </div>
+      
+      {/* Get Premium button */}
+      <div className="fixed bottom-32 right-4 z-20">
+        <div className="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center">
+          <button className="flex items-center justify-center bg-gradient-to-r from-gray-100 to-white rounded-full w-8 h-8 mb-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15 9H22L16 14L18 21L12 17L6 21L8 14L2 9H9L12 2Z" fill="#f59e0b" />
+            </svg>
+          </button>
+          <div className="text-xs text-gray-700 font-semibold">Get Premium</div>
+        </div>
+      </div>
+      
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} isLoggedIn={false} />
       
