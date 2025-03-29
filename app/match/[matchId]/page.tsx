@@ -75,10 +75,18 @@ export default function MatchDetailPage() {
   // Available bet amounts
   const betAmounts = [5, 10, 20, 50, 100, 200, 500, 1000];
 
+  // Define the BetOption interface
+  interface BetOption {
+    section: string;
+    option: string;
+    name: string;
+    odds: string;
+  }
+
   const [activeTab, setActiveTab] = useState("all");
   const [viewMode, setViewMode] = useState("detailed"); // 'detailed' or 'list'
-  const [selectedBets, setSelectedBets] = useState({});
-  const [selectedAmount, setSelectedAmount] = useState(null);
+  const [selectedBets, setSelectedBets] = useState<Record<string, BetOption>>({});
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [showBetSlip, setShowBetSlip] = useState(false);
 
   const totalSelectedBets = Object.keys(selectedBets).length;
@@ -95,7 +103,7 @@ export default function MatchDetailPage() {
     setSidebarOpen(false);
   };
 
-  const toggleBetSelection = (sectionId, optionId, optionName, odds) => {
+  const toggleBetSelection = (sectionId: string, optionId: string, optionName: string, odds: string) => {
     const betKey = `${sectionId}-${optionId}`;
     
     setSelectedBets(prev => {
@@ -116,7 +124,7 @@ export default function MatchDetailPage() {
     });
   };
 
-  const handleAmountSelection = (amount) => {
+  const handleAmountSelection = (amount: number) => {
     setSelectedAmount(amount);
   };
 
