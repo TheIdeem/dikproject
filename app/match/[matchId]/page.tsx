@@ -75,7 +75,20 @@ export default function MatchDetailPage() {
   // Available bet amounts
   const betAmounts = [5, 10, 20, 50, 100, 200, 500, 1000];
 
-  // Define the BetOption interface
+  // Define interfaces
+  interface BetOptionBase {
+    id: string;
+    name: string;
+    odds: string;
+  }
+
+  interface HandicapBetOption extends BetOptionBase {
+    handicap: string;
+  }
+
+  type BetOptionType = BetOptionBase | HandicapBetOption;
+
+  // Define the BetOption interface for selected bets
   interface BetOption {
     section: string;
     option: string;
@@ -264,7 +277,7 @@ export default function MatchDetailPage() {
                     }}
                     onClick={() => toggleBetSelection(section.id, option.id, option.name, option.odds)}
                   >
-                    {section.id === 'handicap' && (
+                    {section.id === 'handicap' && 'handicap' in option && (
                       <div className="absolute top-2 left-2 text-white text-sm">
                         {option.handicap}
                       </div>
