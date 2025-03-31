@@ -217,12 +217,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, isLoggedIn =
           ))}
         </ul>
       </nav>
-      
-      <div className="absolute bottom-4 right-4 text-sm text-gray-500">
-        <div className="flex items-center">
-          <span>02:04:12</span>
-        </div>
-      </div>
     </div>
   );
 };
