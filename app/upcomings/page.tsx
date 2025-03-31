@@ -21,6 +21,22 @@ const sportsData = [
   { id: 'table-tennis', name: 'Table Tennis', icon: '/images/sports/table-tennis.svg' },
 ];
 
+// Sports tabs data
+const sportsTabs = [
+  { id: "football", name: "Football" },
+  { id: "ice-hockey", name: "Ice Hockey" },
+  { id: "basketball", name: "Basketball" },
+  { id: "tennis", name: "Tennis" },
+  { id: "volleyball", name: "Volleyball" },
+  { id: "american-football", name: "American Football" },
+  { id: "baseball", name: "Baseball" },
+  { id: "boxing", name: "Boxing" },
+  { id: "darts", name: "Darts" },
+  { id: "futsal", name: "Futsal" },
+  { id: "handball", name: "Handball" },
+  { id: "table-tennis", name: "Table Tennis" }
+];
+
 export default function UpcomingsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
@@ -64,61 +80,86 @@ export default function UpcomingsPage() {
       </div>
 
       {/* Sports Selection Menu */}
-      <div className="overflow-x-auto scrollbar-hide">
-        <div className="grid grid-flow-col auto-cols-max">
-          {sportsData.map((sport) => (
-            <Link 
-              key={sport.id} 
-              href={`/upcomings?sport=${sport.id}`}
-              className="flex flex-col items-center justify-center p-2 w-[130px] border-r border-[#1e2b3f]"
-            >
-              <div className="w-[60px] h-[60px] bg-[#1e3a28] rounded-full flex items-center justify-center">
-                <div className="w-[24px] h-[24px]">
-                  {/* Sport icon fallback with text */}
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                    {sport.id === 'football' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'hockey' && (
-                      <path d="M5 7C5 5.89543 5.89543 5 7 5H17C18.1046 5 19 5.89543 19 7V10C19 11.1046 18.1046 12 17 12H7C5.89543 12 5 11.1046 5 10V7Z" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'basketball' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'tennis' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'volleyball' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'american-football' && (
-                      <path d="M5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12Z" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'baseball' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'boxing' && (
-                      <rect x="6" y="6" width="12" height="12" rx="2" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'darts' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'futsal' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'handball' && (
-                      <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                    {sport.id === 'table-tennis' && (
-                      <rect x="4" y="8" width="16" height="8" rx="1" stroke="#ffff00" strokeWidth="1.5" fill="none" />
-                    )}
-                  </svg>
-                </div>
-              </div>
-              <span className="text-white text-xs mt-1 text-center">{sport.name}</span>
-            </Link>
-          ))}
-        </div>
+      <div className="overflow-x-auto flex bg-[#133e14]">
+        {sportsTabs.map((sport) => (
+          <Link 
+            href={`/sports/${sport.id}`}
+            key={sport.id} 
+            className="flex-shrink-0 py-2 px-3 text-center flex flex-col items-center justify-center border-r border-opacity-30 border-[#2a3847]"
+            style={{ minWidth: `${100/12}%` }}
+          >
+            <div className="w-10 h-10 flex items-center justify-center mb-1">
+              {sport.id === 'football' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="11" stroke="#ffff00" strokeWidth="2" fill="none" />
+                </svg>
+              )}
+              {sport.id === 'ice-hockey' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 12H18" stroke="#ffff00" strokeWidth="2" />
+                  <path d="M8 8L12 12L16 8" stroke="#ffff00" strokeWidth="2" />
+                </svg>
+              )}
+              {sport.id === 'basketball' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="2" fill="none" />
+                </svg>
+              )}
+              {sport.id === 'tennis' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="5" stroke="#ffff00" strokeWidth="2" fill="none" />
+                  <path d="M6 6L18 18" stroke="#ffff00" strokeWidth="2" />
+                </svg>
+              )}
+              {sport.id === 'volleyball' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="2" fill="none" />
+                </svg>
+              )}
+              {sport.id === 'american-football' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18C8.68629 18 6 15.3137 6 12Z" stroke="#ffff00" strokeWidth="2" />
+                  <path d="M6 12H18" stroke="#ffff00" strokeWidth="2" />
+                </svg>
+              )}
+              {sport.id === 'baseball' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 16L18 8" stroke="#ffff00" strokeWidth="2" />
+                </svg>
+              )}
+              {sport.id === 'boxing' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="8" r="6" stroke="#ffff00" strokeWidth="2" fill="none" />
+                  <path d="M6 14L18 20" stroke="#ffff00" strokeWidth="2" />
+                </svg>
+              )}
+              {sport.id === 'darts' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="2" fill="none" />
+                  <circle cx="12" cy="12" r="5" stroke="#ffff00" strokeWidth="2" fill="none" />
+                  <circle cx="12" cy="12" r="1" fill="#ffff00" />
+                </svg>
+              )}
+              {sport.id === 'futsal' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="2" fill="none" />
+                  <path d="M8 8L16 16" stroke="#ffff00" strokeWidth="2" />
+                </svg>
+              )}
+              {sport.id === 'handball' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="2" fill="none" />
+                </svg>
+              )}
+              {sport.id === 'table-tennis' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#ffff00" strokeWidth="2" fill="none" />
+                </svg>
+              )}
+            </div>
+            <div className="text-white text-sm font-medium">{sport.name}</div>
+          </Link>
+        ))}
       </div>
 
       {/* Main Content Area */}

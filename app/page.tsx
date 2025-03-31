@@ -168,15 +168,16 @@ export default function Home() {
         )}
       
         {/* Banner image with kurdish text and contact info */}
-        <div className="flex justify-center p-4 pb-8 overflow-hidden bg-[#1e2b3f]">
-          <div className="relative w-full max-w-md rounded-lg overflow-hidden" style={{ height: "200px" }}>
+        <div className="flex justify-center p-4 pb-8 overflow-hidden bg-[#1e2b3f] w-full">
+          <div className="relative w-full rounded-lg overflow-hidden" style={{ height: "250px" }}>
             {/* Static banner image */}
             <Image 
               src="/images/banners/img_banner_1.jpeg" 
               alt="Support Banner" 
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "cover", objectPosition: "center" }}
               priority
+              className="w-full"
             />
           </div>
         </div>
@@ -286,7 +287,13 @@ export default function Home() {
         <div className="grid-container grid grid-cols-2 gap-0 p-0" style={{ backgroundColor: '#1a2538' }}>
           {/* Live Matches */}
           <Link href="/live-bets" className="grid-item custom-icon-cell" style={{ borderBottom: '1px solid #2d3b4f', borderRight: '1px solid #2d3b4f' }}>
-            <div className="custom-icon live-icon"></div>
+            <div className="icon-container">
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <circle cx="50" cy="50" r="20" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <circle cx="50" cy="50" r="5" fill="#00ff00" />
+              </svg>
+            </div>
             <div className="mt-4 text-center text-lg font-semibold z-10 relative">LIVE MATCHES</div>
           </Link>
           
@@ -296,20 +303,12 @@ export default function Home() {
             overflow: 'hidden',
             borderBottom: '1px solid #2d3b4f'
           }}>
-            {/* Custom icon for Sports matching the ls2:before selector */}
-            <div style={{
-              position: 'absolute',
-              top: '-10px',
-              left: '-50px',
-              fontSize: '170px',
-              color: '#0f0',
-              transform: 'rotate(20deg)',
-              margin: 0,
-              fontWeight: 400,
-              zIndex: 0,
-              opacity: 0.7
-            }}>
-              ⚽
+            <div className="icon-container">
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <path d="M50 10 L50 90 M10 50 L90 50" stroke="#00ff00" strokeWidth="6" />
+                <path d="M20 20 L80 80 M20 80 L80 20" stroke="#00ff00" strokeWidth="6" />
+              </svg>
             </div>
             <div className="mt-4 text-center text-lg font-semibold text-white" style={{ position: 'relative', zIndex: 1 }}>SPORTS</div>
           </Link>
@@ -317,12 +316,10 @@ export default function Home() {
           {/* Soon Later */}
           <Link href="/upcomings" className="grid-item" style={{ borderRight: '1px solid #2d3b4f' }}>
             <div className="icon-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <rect x="10" y="15" width="60" height="70" rx="5" fill="#00ff00" />
-                <rect x="20" y="25" width="40" height="50" rx="3" fill="#1a2538" />
-                <line x1="25" y1="40" x2="55" y2="40" stroke="#00ff00" strokeWidth="4" strokeLinecap="round" />
-                <line x1="25" y1="50" x2="55" y2="50" stroke="#00ff00" strokeWidth="4" strokeLinecap="round" />
-                <line x1="25" y1="60" x2="55" y2="60" stroke="#00ff00" strokeWidth="4" strokeLinecap="round" />
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="15" y="15" width="70" height="70" rx="10" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <circle cx="50" cy="50" r="25" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <path d="M50 35 L50 50 L65 50" stroke="#00ff00" strokeWidth="6" strokeLinecap="round" />
               </svg>
             </div>
             <div className="mt-4 text-center text-lg font-semibold text-white">SOON LATER</div>
@@ -330,7 +327,11 @@ export default function Home() {
           
           {/* Popular Matches */}
           <Link href="/popular-matches" className="grid-item custom-icon-cell">
-            <div className="custom-icon popular-icon"></div>
+            <div className="icon-container">
+              <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 10 L58 35 L85 35 L64 50 L72 75 L50 60 L28 75 L36 50 L15 35 L42 35 Z" fill="none" stroke="#00ff00" strokeWidth="6" />
+              </svg>
+            </div>
             <div className="mt-4 text-center text-lg font-semibold z-10 relative text-white">POPULAR MATCHES</div>
           </Link>
         </div>
@@ -340,11 +341,12 @@ export default function Home() {
         <div className="grid-container grid grid-cols-2 gap-0 p-0" style={{ backgroundColor: '#1a2538' }}>
           {/* Live Casino */}
           <Link href="/livecasino" className="grid-item relative" style={{ borderBottom: '1px solid #2d3b4f', borderRight: '1px solid #2d3b4f' }}>
-            <div className="absolute left-0 top-0 transform -translate-y-1/4 -translate-x-1/4">
+            <div className="icon-container">
               <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 5 C20 5 5 20 5 50" stroke="#00ff00" strokeWidth="10" fill="none" />
-                <path d="M50 5 C80 5 95 20 95 50" stroke="#00ff00" strokeWidth="10" fill="none" />
-                <circle cx="50" cy="50" r="20" stroke="#00ff00" strokeWidth="10" fill="none" />
+                <rect x="10" y="20" width="80" height="60" rx="5" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <circle cx="30" cy="50" r="10" fill="#00ff00" />
+                <circle cx="50" cy="50" r="10" fill="#00ff00" />
+                <circle cx="70" cy="50" r="10" fill="#00ff00" />
               </svg>
             </div>
             <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">LIVE CASINO</div>
@@ -352,12 +354,12 @@ export default function Home() {
           
           {/* Slot Games */}
           <Link href="/casino" className="grid-item relative" style={{ borderBottom: '1px solid #2d3b4f' }}>
-            <div className="absolute right-0 top-0 transform -translate-y-1/4 translate-x-1/4">
+            <div className="icon-container">
               <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <rect x="20" y="10" width="60" height="80" rx="8" stroke="#00ff00" strokeWidth="10" fill="none" />
-                <path d="M20 40 L80 40" stroke="#00ff00" strokeWidth="5" />
-                <circle cx="40" cy="65" r="10" fill="#00ff00" />
-                <circle cx="60" cy="65" r="10" fill="#00ff00" />
+                <rect x="15" y="15" width="70" height="70" rx="10" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <rect x="25" y="25" width="50" height="50" rx="5" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <path d="M25 40 L75 40 M25 60 L75 60" stroke="#00ff00" strokeWidth="6" />
+                <path d="M40 25 L40 75 M60 25 L60 75" stroke="#00ff00" strokeWidth="6" />
               </svg>
             </div>
             <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">SLOT GAMES</div>
@@ -365,11 +367,12 @@ export default function Home() {
           
           {/* Live Bingo */}
           <Link href="/bingo" className="grid-item relative" style={{ borderRight: '1px solid #2d3b4f' }}>
-            <div className="absolute left-0 bottom-0 transform translate-y-1/4 -translate-x-1/4">
+            <div className="icon-container">
               <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="40" stroke="#00ff00" strokeWidth="10" fill="none" />
-                <path d="M20 20 L80 80" stroke="#00ff00" strokeWidth="10" />
-                <path d="M80 20 L20 80" stroke="#00ff00" strokeWidth="10" />
+                <rect x="15" y="15" width="70" height="70" rx="5" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <text x="25" y="45" fill="#00ff00" style={{ fontSize: "20px", fontWeight: "bold" }}>B I N</text>
+                <text x="25" y="70" fill="#00ff00" style={{ fontSize: "20px", fontWeight: "bold" }}>G O !</text>
+                <circle cx="75" cy="30" r="10" fill="#00ff00" />
               </svg>
             </div>
             <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">LIVE BINGO</div>
@@ -377,9 +380,13 @@ export default function Home() {
           
           {/* Virtual Games */}
           <Link href="/virtualgames" className="grid-item relative">
-            <div className="absolute right-0 bottom-0 transform translate-y-1/4 translate-x-1/4">
+            <div className="icon-container">
               <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 50 C20 10, 40 10, 50 50 C60 90, 80 90, 90 50" stroke="#00ff00" strokeWidth="10" fill="none" />
+                <path d="M20 80 L20 30 A30 30 0 0 1 80 30 L80 80" fill="none" stroke="#00ff00" strokeWidth="6" />
+                <rect x="10" y="80" width="80" height="10" rx="5" fill="#00ff00" />
+                <circle cx="35" cy="40" r="8" fill="#00ff00" />
+                <circle cx="65" cy="40" r="8" fill="#00ff00" />
+                <path d="M40 60 A10 10 0 0 0 60 60" fill="none" stroke="#00ff00" strokeWidth="4" />
               </svg>
             </div>
             <div className="mt-4 text-center text-xl font-bold text-white z-10 relative">VIRTUAL GAMES</div>
