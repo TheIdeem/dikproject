@@ -1,35 +1,50 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import Sidebar from '../../../components/Sidebar';
-import SearchBar from '../../../components/SearchBar';
+import Sidebar from '../../../../components/Sidebar';
+import SearchBar from '../../../../components/SearchBar';
 
-// Import mock data
-import { sportNames, countryNames, leaguesByCountry } from './mockData';
+// Import mock data from parent file
+import { sportNames, countryNames, leaguesByCountry, generateMatches } from '../mockData';
 
-export default function MatchesPage() {
+export default function LeagueMatchesPage() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [matches, setMatches] = useState<any[]>([]);
+  const [filteredMatches, setFilteredMatches] = useState<any[]>([]);
   
   const sportId = params.sportId as string || '';
   const countryId = params.countryId as string || '';
+  const leagueId = params.leagueId as string || '';
   
   const sportName = sportId && sportNames[sportId] ? sportNames[sportId] : 'Sport';
   const countryName = countryId && countryNames[countryId] ? countryNames[countryId] : 'Country';
   
-  // Get leagues for the current country and sport
+  // Find the league name
   const leagues = leaguesByCountry[sportId]?.[countryId] || [];
-  const [filteredLeagues, setFilteredLeagues] = useState(leagues);
+  const leagueName = decodeURIComponent(leagueId).replace(/-/g, ' ');
   
   // Get URL query parameters
   const sid = searchParams.get('sid') || sportId;
   const today = searchParams.get('today') || '0';
   const activeTime = searchParams.get('activeTime') || 'All';
+  
+  useEffect(() => {
+    // Generate matches with a fixed seed value to ensure consistent results
+    // This avoids hydration errors by ensuring the content is consistent
+    const seed = 42; // Fixed seed for consistency
+    const allMatches = generateMatches(sportId, countryId, seed);
+    
+    // For demonstration purposes, we're using the same match generator
+    // In a real app, you would filter matches by the specific league
+    setMatches(allMatches);
+    setFilteredMatches(allMatches);
+  }, [sportId, countryId, leagueId]);
 
   const openSidebar = () => {
     setSidebarOpen(true);
@@ -41,16 +56,17 @@ export default function MatchesPage() {
 
   const handleSearch = (query: string) => {
     if (!query.trim()) {
-      setFilteredLeagues(leagues);
+      setFilteredMatches(matches);
       return;
     }
     
     const normalizedQuery = query.toLowerCase();
-    const filtered = leagues.filter(league => 
-      league.name.toLowerCase().includes(normalizedQuery)
+    const filtered = matches.filter(match => 
+      match.homeTeam.toLowerCase().includes(normalizedQuery) || 
+      match.awayTeam.toLowerCase().includes(normalizedQuery)
     );
     
-    setFilteredLeagues(filtered);
+    setFilteredMatches(filtered);
   };
 
   return (
@@ -91,8 +107,8 @@ export default function MatchesPage() {
           </svg>
         </button>
         <div>
-          <h1 className="text-xl font-medium text-white">{sportName}</h1>
-          <p className="text-gray-400">{countryName}</p>
+          <h1 className="text-xl font-medium text-white">{leagueName}</h1>
+          <p className="text-gray-400">{sportName} - {countryName}</p>
         </div>
       </div>
 
@@ -112,26 +128,62 @@ export default function MatchesPage() {
       </div>
 
       {/* Search bar */}
-      <SearchBar onSearch={handleSearch} placeholder="Search" />
+      <SearchBar onSearch={handleSearch} placeholder="Search teams" />
 
-      {/* Leagues List */}
+      {/* Matches List */}
       <div className="flex-grow">
-        {filteredLeagues.length > 0 ? (
-          <div className="leagues-list">
-            {filteredLeagues.map((league, index) => (
-              <Link 
-                href={`/sport-bets/${sportId}/${countryId}/${encodeURIComponent(league.name.replace(/ /g, '-').toLowerCase())}`}
-                key={league.name}
-                className="flex justify-between items-center p-4 hover:bg-[#1a2940] transition-colors border-b border-[#1a2940] text-white"
-              >
-                <span>{league.name}</span>
-                <span className="text-gray-400">{league.matchCount}</span>
-              </Link>
-            ))}
+        {matches.length === 0 ? (
+          <div className="flex justify-center items-center h-32 text-gray-400">
+            Loading matches...
+          </div>
+        ) : filteredMatches.length === 0 ? (
+          <div className="flex justify-center items-center h-32 text-gray-400">
+            No matches found
           </div>
         ) : (
-          <div className="flex justify-center items-center h-32 text-gray-400">
-            No leagues available
+          <div className="matches-list">
+            {filteredMatches.map((match) => (
+              <Link href={`/match/${match.id}`} key={match.id} className="block match-card bg-[#152133] rounded-lg m-4 p-4 hover:bg-[#1a2940] transition-colors">
+                <div className="match-header flex justify-between text-gray-400 text-sm mb-2">
+                  <span>{match.date} | {match.time}</span>
+                  <span>ID: {match.id}</span>
+                </div>
+                
+                <div className="match-teams mb-4">
+                  <div className="home-team text-white font-medium mb-1">{match.homeTeam}</div>
+                  <div className="away-team text-white font-medium">{match.awayTeam}</div>
+                </div>
+                
+                <div className="match-odds flex justify-between">
+                  <button 
+                    className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    1<br/>{match.odds.home}
+                  </button>
+                  <button 
+                    className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    X<br/>{match.odds.draw}
+                  </button>
+                  <button 
+                    className="odds-button bg-[#1e2b3f] text-white px-4 py-2 rounded flex-1 mx-1 text-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    2<br/>{match.odds.away}
+                  </button>
+                  <button 
+                    className="more-options-button bg-[#1e2b3f] text-white px-3 py-2 rounded mx-1 flex items-center justify-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 5V5.01M12 12V12.01M12 19V19.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </div>

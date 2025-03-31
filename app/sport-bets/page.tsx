@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Sidebar from '../components/Sidebar';
+import SearchBar from '../components/SearchBar';
+import AccountButton from '../components/AccountButton';
 
 const sportsData = [
   { id: 'football', name: 'Football', count: 1692, icon: (
@@ -105,7 +107,7 @@ const sportsData = [
 
 export default function SportBetsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isLoggedIn] = useState(false);
+  const [filteredSports, setFilteredSports] = useState(sportsData);
 
   const openSidebar = () => {
     setSidebarOpen(true);
@@ -113,6 +115,20 @@ export default function SportBetsPage() {
 
   const closeSidebar = () => {
     setSidebarOpen(false);
+  };
+
+  const handleSearch = (query: string) => {
+    if (!query.trim()) {
+      setFilteredSports(sportsData);
+      return;
+    }
+    
+    const normalizedQuery = query.toLowerCase();
+    const filtered = sportsData.filter(sport => 
+      sport.name.toLowerCase().includes(normalizedQuery)
+    );
+    
+    setFilteredSports(filtered);
   };
 
   return (
@@ -131,14 +147,7 @@ export default function SportBetsPage() {
           <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
         </div>
         
-        {isLoggedIn && (
-          <div className="text-white font-medium bg-black rounded px-2 py-1">
-            0.00 USD
-          </div>
-        )}
-        {!isLoggedIn && (
-          <div className="w-[80px]"></div>
-        )}
+        <AccountButton />
       </header>
 
       {/* Sports Title */}
@@ -146,10 +155,13 @@ export default function SportBetsPage() {
         <h1 className="text-white text-lg font-medium">Sports</h1>
       </div>
 
+      {/* Search Bar */}
+      <SearchBar onSearch={handleSearch} placeholder="Search" />
+
       {/* Sports List */}
       <div className="flex-grow overflow-y-auto bg-[#1a2634]">
         <ul>
-          {sportsData.map((sport) => (
+          {filteredSports.map((sport) => (
             <li key={sport.id} className="border-b border-[#2a3847]">
               <Link href={`/sport-bets/${sport.id}?sid=${sport.id}&today=0&activeTime=All`} className="flex items-center justify-between p-4 text-white">
                 <div className="flex items-center">

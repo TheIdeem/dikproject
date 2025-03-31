@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Sidebar from '../../components/Sidebar';
+import SearchBar from '../../components/SearchBar';
 
 // Mock data for countries - this would come from API/backend in a real app
 const countriesData = [
@@ -48,6 +49,7 @@ export default function SportCountryPage() {
   const searchParams = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [countries, setCountries] = useState<any[]>([]);
+  const [filteredCountries, setFilteredCountries] = useState<any[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   
   const sportId = params.sportId as string || '';
@@ -61,6 +63,7 @@ export default function SportCountryPage() {
   useEffect(() => {
     // Initialize the countries once the component is mounted on the client
     setCountries(countriesData);
+    setFilteredCountries(countriesData);
     setIsLoaded(true);
   }, []);
 
@@ -70,6 +73,20 @@ export default function SportCountryPage() {
 
   const closeSidebar = () => {
     setSidebarOpen(false);
+  };
+
+  const handleSearch = (query: string) => {
+    if (!query.trim()) {
+      setFilteredCountries(countries);
+      return;
+    }
+    
+    const normalizedQuery = query.toLowerCase();
+    const filtered = countries.filter(country => 
+      country.name.toLowerCase().includes(normalizedQuery)
+    );
+    
+    setFilteredCountries(filtered);
   };
 
   return (
@@ -126,26 +143,7 @@ export default function SportCountryPage() {
       </div>
 
       {/* Search bar */}
-      <div className="p-4">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full p-3 bg-[#152133] text-white rounded-lg pl-10"
-          />
-          <svg 
-            className="absolute left-3 top-1/2 transform -translate-y-1/2" 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="11" cy="11" r="7" stroke="#6e7d92" strokeWidth="2"/>
-            <path d="M16 16L20 20" stroke="#6e7d92" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </div>
-      </div>
+      <SearchBar onSearch={handleSearch} placeholder="Search" />
 
       {/* Countries List */}
       <div className="flex-grow dark-mode-sports-list">
@@ -155,7 +153,7 @@ export default function SportCountryPage() {
           </div>
         ) : (
           <ul>
-            {countries.map((country) => (
+            {filteredCountries.map((country) => (
               <li key={country.id} className="countries-list-item">
                 <Link 
                   href={`/sport-bets/${sportId}/${country.id}?sid=${sportId}&today=0&activeTime=All`} 

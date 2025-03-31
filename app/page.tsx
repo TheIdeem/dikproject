@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Link from "next/link";
+import { useAuth } from './context/AuthContext';
+import AccountButton from './components/AccountButton';
+import { useRouter } from 'next/navigation';
 
 // Banner slider data
 const bannerData = [
@@ -61,9 +64,17 @@ const providers = [
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("sports");
   const [loginVisible, setLoginVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState("sports");
   const [currentBanner, setCurrentBanner] = useState(0);
+  const { isAuthenticated, login } = useAuth();
+  const router = useRouter();
+  const [loginCredentials, setLoginCredentials] = useState({
+    username: '',
+    password: ''
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const openSidebar = () => {
     setSidebarOpen(true);
@@ -74,7 +85,40 @@ export default function Home() {
   };
 
   const toggleLogin = () => {
-    setLoginVisible(!loginVisible);
+    if (!isAuthenticated) {
+      setLoginVisible(!loginVisible);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setLoginCredentials(prev => ({
+      ...prev,
+      [id]: value
+    }));
+    setErrorMessage('');
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage('');
+    
+    try {
+      const success = await login(loginCredentials.username, loginCredentials.password);
+      
+      if (success) {
+        setLoginVisible(false);
+        setLoginCredentials({ username: '', password: '' });
+      } else {
+        setErrorMessage('Invalid username or password. Please try again.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setErrorMessage('An error occurred during login. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Auto rotate banner
@@ -105,24 +149,23 @@ export default function Home() {
           </button>
           
           <div className="logo">
-            <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
+            <Link href="/">
+              <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority className="cursor-pointer" />
+            </Link>
           </div>
           
-          <button className="user-button" onClick={toggleLogin}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2"/>
-              <path d="M4 20C4 17.7909 6.79086 16 10 16H14C17.2091 16 20 17.7909 20 20" stroke="white" strokeWidth="2"/>
-            </svg>
-          </button>
+          <AccountButton className="user-button" />
         </header>
         
-        {/* Register Bar */}
-        <div className="register-bar">
-          <div>FREE REGISTER NOW</div>
-          <Link href="/register">
-            <button className="register-button">Register</button>
-          </Link>
-        </div>
+        {/* Register Bar - Only show if not authenticated */}
+        {!isAuthenticated && (
+          <div className="register-bar">
+            <div>FREE REGISTER NOW</div>
+            <Link href="/register">
+              <button className="register-button">Register</button>
+            </Link>
+          </div>
+        )}
       
         {/* Banner image with kurdish text and contact info */}
         <div className="flex justify-center p-4 pb-8 overflow-hidden bg-[#1e2b3f]">
@@ -142,7 +185,8 @@ export default function Home() {
       {/* Login Panel */}
       {loginVisible && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md overflow-hidden">
+          <div className="absolute inset-0 bg-black bg-opacity-50" onClick={toggleLogin}></div>
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md overflow-hidden relative z-10">
             <div className="bg-[#00B3E3] py-4 px-6 relative">
               <button onClick={toggleLogin} className="absolute top-4 left-4 text-white">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,31 +195,52 @@ export default function Home() {
               </button>
               <h2 className="text-xl text-white text-center font-semibold">Login</h2>
             </div>
-            <div className="p-6">
+            <form onSubmit={handleLogin} className="p-6">
               <p className="text-[#00B3E3] mb-4">Do you have a membership?</p>
+              
+              {errorMessage && (
+                <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded">
+                  {errorMessage}
+                </div>
+              )}
               
               <div className="mb-4">
                 <input 
                   type="text" 
+                  id="username"
+                  value={loginCredentials.username}
+                  onChange={handleInputChange}
                   placeholder="User name" 
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  className="w-full p-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-700"
                 />
               </div>
               
               <div className="mb-6">
                 <input 
                   type="password" 
+                  id="password"
+                  value={loginCredentials.password}
+                  onChange={handleInputChange}
                   placeholder="Password" 
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  className="w-full p-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-700"
                 />
               </div>
               
-              <button className="w-full bg-[#00B3E3] text-white py-2 rounded-md font-semibold uppercase">
-                LOGIN
+              <button 
+                type="submit" 
+                className="w-full bg-[#00B3E3] text-white py-2 rounded-md font-semibold uppercase"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'LOGGING IN...' : 'LOGIN'}
               </button>
               
-              <p className="mt-4 text-left text-[#00B3E3]">Forgot Password!</p>
-            </div>
+              <div className="mt-4 flex justify-between">
+                <span className="text-[#00B3E3] cursor-pointer">Forgot Password!</span>
+                <Link href="/register" className="text-[#00B3E3]" onClick={toggleLogin}>
+                  Register
+                </Link>
+              </div>
+            </form>
           </div>
         </div>
       )}
@@ -383,7 +448,7 @@ export default function Home() {
       </div>
       
       {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} isLoggedIn={false} />
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
       
       {/* Overlay */}
       {(sidebarOpen || loginVisible) && (

@@ -69,7 +69,7 @@ export default function LiveBetsPage() {
         </button>
         
         <Link href="/" className="flex justify-center">
-          <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority />
+          <Image src="/logo/250x76.png" alt="KurdBetDax Logo" width={150} height={40} priority className="cursor-pointer" />
         </Link>
         
         <div className="w-[80px]"></div>
